@@ -37,28 +37,6 @@ public class UserController {
   }
   
   @ResponseStatus(HttpStatus.OK)
-  @PostMapping(
-    produces = MediaType.APPLICATION_JSON_VALUE
-  )
-  @ApiOperation(value = "Create User operation")
-  @ApiResponses({
-    @ApiResponse(
-      code = HttpServletResponse.SC_NO_CONTENT,
-      message = ApiMessages.OK_RESPONSE_MESSAGE
-    ),
-    @ApiResponse(
-      code = HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-      message = ApiMessages.GENERIC_ERROR_RESPONSE_MESSAGE,
-      response = CustomError.class
-    )
-  })
-  public ResponseEntity<UserResponse> saveUser(
-    @Valid @RequestBody UserRequest userRequest
-  ) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveUser(userRequest));
-  }
-  
-  @ResponseStatus(HttpStatus.OK)
   @GetMapping(
     produces = MediaType.APPLICATION_JSON_VALUE
   )
@@ -85,4 +63,48 @@ public class UserController {
     return ResponseEntity.ok(this.userService.findAllUsers(email, from, to));
   }
   
+  @ResponseStatus(HttpStatus.OK)
+  @PostMapping(
+    produces = MediaType.APPLICATION_JSON_VALUE
+  )
+  @ApiOperation(value = "Create User operation")
+  @ApiResponses({
+    @ApiResponse(
+      code = HttpServletResponse.SC_NO_CONTENT,
+      message = ApiMessages.OK_RESPONSE_MESSAGE
+    ),
+    @ApiResponse(
+      code = HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+      message = ApiMessages.GENERIC_ERROR_RESPONSE_MESSAGE,
+      response = CustomError.class
+    )
+  })
+  public ResponseEntity<UserResponse> saveUser(
+    @Valid @RequestBody UserRequest userRequest
+  ) {
+    return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveUser(userRequest));
+  }
+  
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @DeleteMapping(
+    produces = MediaType.APPLICATION_JSON_VALUE
+  )
+  @ApiOperation(value = "Delete User operation")
+  @ApiResponses({
+    @ApiResponse(
+      code = HttpServletResponse.SC_NO_CONTENT,
+      message = ApiMessages.OK_RESPONSE_MESSAGE
+    ),
+    @ApiResponse(
+      code = HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+      message = ApiMessages.GENERIC_ERROR_RESPONSE_MESSAGE,
+      response = CustomError.class
+    )
+  })
+  public ResponseEntity<UserResponse> deleteUsers(
+    @RequestParam List<Integer> userIds
+  ) {
+    userService.deleteUsers(userIds);
+    return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+  }
 }

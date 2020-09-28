@@ -19,8 +19,7 @@ import java.util.stream.Collectors;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserControllerTest {
@@ -174,5 +173,15 @@ public class UserControllerTest {
     verify(userService).findAllUsers(emailFilter, null, null);
   }
   
-  
+  @Test
+  public void deleteUsers(){
+    List<Integer> listIds = Lists.newArrayList(1,2,3,4);
+    
+    doNothing().when(userService).deleteUsers(listIds);
+    
+    userController.deleteUsers(listIds);
+    
+    verify(userService).deleteUsers(listIds);
+    
+  }
 }

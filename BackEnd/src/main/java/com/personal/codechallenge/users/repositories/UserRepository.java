@@ -13,4 +13,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
   List<User> findAllByEmailContaining(String email);
   List<User> findAllByEmailContainingAndBirthDateBetween(String email, LocalDate from, LocalDate to);
   List<User> findAllByBirthDateBetween(LocalDate from, LocalDate to);
+  void deleteAllByIdIn(List<Integer> ids);
 }

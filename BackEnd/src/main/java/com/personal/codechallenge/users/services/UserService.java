@@ -11,4 +11,6 @@ public interface UserService {
   UserResponse saveUser(UserRequest userRequest);
   
   List<UserResponse> findAllUsers(String email, LocalDate from, LocalDate to);
+  
+  void deleteUsers(List<Integer> userIds);
 }

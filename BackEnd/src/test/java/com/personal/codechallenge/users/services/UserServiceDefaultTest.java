@@ -1,9 +1,11 @@
 package com.personal.codechallenge.users.services;
 
 import com.personal.codechallenge.users.model.api.UserRequest;
+import com.personal.codechallenge.users.model.api.UserResponse;
 import com.personal.codechallenge.users.model.repository.User;
 import com.personal.codechallenge.users.repositories.UserRepository;
 import com.personal.codechallenge.users.validations.UserValidation;
+import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,8 +14,9 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.time.LocalDate;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -56,7 +59,7 @@ public class UserServiceDefaultTest {
     doNothing().when(userValidation).checkNameAndLastNameValid(userTest);
     doNothing().when(userValidation).checkBirthDateIsValid(userTest);
   
-    com.personal.codechallenge.users.model.api.UserResponse actual = userService.saveUser(userTest);
+    UserResponse actual = userService.saveUser(userTest);
   
     verify(userRepository).save(any(User.class));
     verify(userValidation).checkNameAndLastNameValid(userTest);
@@ -86,7 +89,7 @@ public class UserServiceDefaultTest {
   @Test(expected = Exception.class)
   public void saveUserWithoutEmail() {
   
-    com.personal.codechallenge.users.model.api.UserRequest userTest = com.personal.codechallenge.users.model.api.UserRequest.builder()
+    UserRequest userTest = UserRequest.builder()
       .birthDate(LocalDate.now())
       .name("Pedro")
       .lastName("Seguro")
@@ -97,6 +100,18 @@ public class UserServiceDefaultTest {
     userService.saveUser(userTest);
   
     verify(userRepository).save(any(User.class));
+  }
+  
+  @Test
+  public void deleteUsers() {
+    
+    List<Integer> usersId = Lists.newArrayList(1,2,3,4,5);
+    
+    doNothing().when(userRepository).deleteAllByIdIn(anyList());
+    
+    userService.deleteUsers(usersId);
+    
+    verify(userRepository).deleteAllByIdIn(anyList());
   }
   
 }

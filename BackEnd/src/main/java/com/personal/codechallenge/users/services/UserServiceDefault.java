@@ -77,4 +77,10 @@ public class UserServiceDefault implements UserService {
         .build())
       .collect(Collectors.toList());
   }
+  
+  @Override
+  public void deleteUsers(List<Integer> userIds) {
+    log.debug("Users deleted correctly: " + userIds);
+    userRepository.deleteAllByIdIn(userIds);
+  }
 }
