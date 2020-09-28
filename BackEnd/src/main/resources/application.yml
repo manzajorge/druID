@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5000/postgres
+    username: postgres
+    password: testing
+  jpa:
+    show-sql: true
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  # Flyway db
+  flyway:
+    enabled: true
+    url: jdbc:postgresql://localhost:5000/postgres
+    user: postgres
+    password: testing
+    validate-on-migrate: false
+    baseline-on-migrate: true
+    baseline-version: 0
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
